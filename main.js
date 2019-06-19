@@ -1,5 +1,6 @@
 let {app,BrowserWindow,ipcMain,dialog} = require('electron')
-
+let {DataStore} = require('./musicData')
+let myData = new DataStore({name:'Music Data'})
 class appWindow extends BrowserWindow {
   constructor(config, file){
     const basicConfig = {
@@ -17,6 +18,11 @@ class appWindow extends BrowserWindow {
 }
 app.on('ready',()=>{
     const MainWindow = new appWindow({},'./renderer/index.html')
+ 
+   // MainWindow.loadURL('http://github.com')
+    MainWindow.webContents.on('did-finish-load', ()=>{
+        MainWindow.send('getTracks', myData.getTrack())
+    })
     ipcMain.on('add_music',()=>{
       const addWindow = new appWindow({
         width: 500,
@@ -35,5 +41,11 @@ app.on('ready',()=>{
           event.sender.send('selected_music', file)
         }
       })
+    })
+    ipcMain.on('export_music', (event,arg)=>{
+       const updataTrack =  myData.addTrack(arg).getTrack()
+       MainWindow.send('getTracks', updataTrack)
+      //  console.log('app.getPath',app.getPath('userData'))
+      //  console.log('updataTrack', updataTrack)
     })
 })
