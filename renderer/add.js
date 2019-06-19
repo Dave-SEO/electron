@@ -19,7 +19,7 @@ const renderHTMList = (file)=>{
     container.innerHTML = `<ul class="list-group">${musicItem}</ul>`
 }
 ipcRenderer.on('selected_music', (event,arg)=>{
-    console.log(arg)
+    //console.log(arg)
     if(Array.isArray(arg)){
         renderHTMList(arg)
         musicData = arg

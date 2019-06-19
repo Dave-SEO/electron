@@ -48,4 +48,8 @@ app.on('ready',()=>{
       //  console.log('app.getPath',app.getPath('userData'))
       //  console.log('updataTrack', updataTrack)
     })
+    ipcMain.on('delMusic',(event,id)=>{
+      let track = myData.deleteTrack(id).getTrack()
+      MainWindow.send('getTracks', track)
+    })
 })

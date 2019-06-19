@@ -27,5 +27,9 @@ class DataStore extends Store {
         this.track = [...this.track,...trackWithPros]
         return this.saveTrack()
     }
+    deleteTrack (id){
+        this.track = this.track.filter(item => item.id !== id)
+        return this.saveTrack()
+    }
 }
 exports.DataStore = DataStore
