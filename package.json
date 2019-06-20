@@ -4,7 +4,58 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "nodemon --watch main.js --exec \"npm run dev\"",
+    "dev": "electron .",
+    "dist": "build",
+    "package": "electron-packager ./ myapp --out ./myClient --app-version=0.0.1 --electron-version=2.0.0 --overwrite --ignore=node_module"
+  },
+  "build": {
+    "appId": "simpleMusicPlayer",
+    "asar": true,
+    "files": [
+      "**/*",
+      "!docs${/*}",
+      "!node_modules/@paulcbetts/cld/deps/cld${/*}"
+    ],
+    "copyright": "©2019 Kandra Labs, Inc.",
+    "mac": {
+      "category": "public.app-category.productivity"
+    },
+    "snap": {
+      "synopsis": "Zulip Desktop App"
+    },
+    "dmg": {
+      "background": "build/appdmg.png",
+      "icon": "build/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
+    }
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -18,10 +69,14 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^5.0.2",
-    "electron-builder": "^20.43.0",
+    "electron-builder": "^20.44.2",
+    "electron-packager": "^13.1.1",
     "nodemon": "^1.19.1"
   },
   "dependencies": {
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
+    "electron-builder-squirrel-windows": "^20.44.0",
     "electron-store": "^3.3.0",
     "uuid": "^3.3.2"
   }
